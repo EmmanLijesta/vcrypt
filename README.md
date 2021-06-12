@@ -1,5 +1,5 @@
 # Vcrypt
-High performance compression and encryption of data or string using Vernam cipher in PHP.
+High performance compression and encryption of string data using Vernam cipher in PHP.
 
 A 1500-char string will be around 48% compressed and encrypted in less than 0.001ms
 
