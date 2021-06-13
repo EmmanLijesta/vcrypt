@@ -8,7 +8,7 @@
 
 class Vcrypt {
 	# change the default k or key with a 64-char Hex, DO NOT change this key once in production
-	function __construct( $t, $k = "f0971dbfe2ca3c75b4dac60f087670f2caa19781057abb432a24daee6c915e93" ) {
+	function __construct( $t, $k ) {
 		$this->t = $t;
 		$this->k = $k;
 		$this->l = strlen($k);
@@ -24,13 +24,15 @@ class Vcrypt {
 	}
 
 	function enc() {
-		# sanitizes input text, compress and encrypt using Vernam cipher
-		$this->t = gzdeflate(htmlspecialchars(stripslashes(trim($this->t))), 9);
-		return $this->ver();
+		# sanitizes input text, convert to UTF-8, compress and encrypt using Vernam cipher
+		$this->t = htmlspecialchars(stripslashes(trim($this->t)));
+		$this->t = gzdeflate( $this->t, 9);
+		return utf8_encode($this->ver());
 	}
 
 	function dec() {
 		# decrypt the data and uncompress it
+		$this->t = utf8_decode($this->t);
 		$this->t = $this->ver();
 		return gzinflate($this->t);
 	}
